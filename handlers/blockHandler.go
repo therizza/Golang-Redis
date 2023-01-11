@@ -20,11 +20,11 @@ type DeleteBlockIDRequest struct {
 	ID string `uri:"id" binding:"required"`
 }
 type CreateBlockRequest struct {
-	ID       string           `uri:"block_id" binding:"required"`
-	Name     string           `uri:"name" binding:"required"`
-	ParentID string           `uri:"parent_id" binding:"required"`
-	CentroID geojson.Geometry `uri:"centro_id" binding:"required"`
-	Value    string           `uri:"value" binding:"required"`
+	ID       string           `uri:"block_id"`
+	Name     string           `uri:"name"`
+	ParentID string           `uri:"parent_id"`
+	CentroID geojson.Geometry `uri:"centro_id"`
+	Value    string           `uri:"value"`
 }
 
 func GetAllBlock(c *gin.Context) {
@@ -126,7 +126,7 @@ func CreateBlock(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, nil)
+		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -140,7 +140,7 @@ func CreateBlock(c *gin.Context) {
 
 	value, err := models.CreateBlock(argBlock)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, nil)
+		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
